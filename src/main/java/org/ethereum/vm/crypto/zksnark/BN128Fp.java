@@ -29,7 +29,6 @@ import static org.ethereum.vm.crypto.zksnark.Params.B_Fp;
  * @since 21.08.2017
  */
 public class BN128Fp extends BN128<Fp> {
-
     // the point at infinity
     static final BN128<Fp> ZERO = new BN128Fp(Fp.ZERO, Fp.ZERO, Fp.ZERO);
 
@@ -64,7 +63,6 @@ public class BN128Fp extends BN128<Fp> {
      * Returns new point if all checks have been passed, otherwise returns null
      */
     public static BN128<Fp> create(byte[] xx, byte[] yy) {
-
         Fp x = Fp.create(xx);
         Fp y = Fp.create(yy);
 

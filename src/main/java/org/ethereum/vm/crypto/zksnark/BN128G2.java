@@ -61,7 +61,6 @@ public class BN128G2 extends BN128Fp2 {
      * subgroup, if check has been passed it returns a point, otherwise returns null
      */
     public static BN128G2 create(byte[] a, byte[] b, byte[] c, byte[] d) {
-
         BN128<Fp2> p = BN128Fp2.create(a, b, c, d);
 
         // fails if point is invalid
@@ -70,8 +69,7 @@ public class BN128G2 extends BN128Fp2 {
         }
 
         // check whether point is a subgroup member
-        if (!isGroupMember(p))
-            return null;
+        if (!isGroupMember(p)) return null;
 
         return new BN128G2(p);
     }
@@ -84,7 +82,6 @@ public class BN128G2 extends BN128Fp2 {
     static final BigInteger FR_NEG_ONE = BigInteger.ONE.negate().mod(Params.R);
 
     BN128G2 mulByP() {
-
         Fp2 rx = Params.TWIST_MUL_BY_P_X.mul(x.frobeniusMap(1));
         Fp2 ry = Params.TWIST_MUL_BY_P_Y.mul(y.frobeniusMap(1));
         Fp2 rz = z.frobeniusMap(1);

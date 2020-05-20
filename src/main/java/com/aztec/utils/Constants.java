@@ -4,7 +4,6 @@ import java.math.BigInteger;
 
 public class Constants {
 
-
     /**
      * Predefined proofs used for testing. Note that proofs are uint24 objects,
      * so we need to compress three uint8 (epoch, category, id) by shifting the
@@ -22,7 +21,6 @@ public class Constants {
         public static final String SWAP_PROOF = "65794";
         public static final String PUBLIC_RANGE_PROOF = "66563";
     }
-
 
     /**
      * Generic scaling factor that maps between AZTEC note values and ERC20 token balances. When used for DAI,
@@ -59,6 +57,6 @@ public class Constants {
      * @constant ZERO_VALUE_NOTE_HASH
      * @default 0x26d21f105b054b61e8d9680855c3af0633bd7c140b87de95f0ac218046fc71db
      */
-    public static final String ZERO_VALUE_NOTE_HASH = "0x26d21f105b054b61e8d9680855c3af0633bd7c140b87de95f0ac218046fc71db";
-
+    public static final String ZERO_VALUE_NOTE_HASH =
+        "0x26d21f105b054b61e8d9680855c3af0633bd7c140b87de95f0ac218046fc71db";
 }

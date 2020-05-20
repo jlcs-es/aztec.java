@@ -37,7 +37,6 @@ import java.util.Objects;
  * @since 02.09.2017
  */
 public class Fp12 implements Field<Fp12> {
-
     static final Fp12 ZERO = new Fp12(Fp6.ZERO, Fp6.ZERO);
     static final Fp12 _1 = new Fp12(Fp6._1, Fp6.ZERO);
 
@@ -51,7 +50,6 @@ public class Fp12 implements Field<Fp12> {
 
     @Override
     public Fp12 squared() {
-
         Fp6 ab = a.mul(b);
 
         Fp6 ra = a.add(b).mul(a.add(b.mulByNonResidue())).sub(ab).sub(ab.mulByNonResidue());
@@ -66,7 +64,6 @@ public class Fp12 implements Field<Fp12> {
     }
 
     Fp12 mulBy024(Fp2 ell0, Fp2 ellVW, Fp2 ellVV) {
-
         Fp2 z0 = a.a;
         Fp2 z1 = a.b;
         Fp2 z2 = a.c;
@@ -145,7 +142,6 @@ public class Fp12 implements Field<Fp12> {
 
     @Override
     public Fp12 mul(Fp12 o) {
-
         Fp6 a2 = o.a, b2 = o.b;
         Fp6 a1 = a, b1 = b;
 
@@ -165,7 +161,6 @@ public class Fp12 implements Field<Fp12> {
 
     @Override
     public Fp12 inverse() {
-
         Fp6 t0 = a.squared();
         Fp6 t1 = b.squared();
         Fp6 t2 = t0.sub(t1.mulByNonResidue());
@@ -193,7 +188,6 @@ public class Fp12 implements Field<Fp12> {
     }
 
     Fp12 frobeniusMap(int power) {
-
         Fp6 ra = a.frobeniusMap(power);
         Fp6 rb = b.frobeniusMap(power).mul(FROBENIUS_COEFFS_B[power % 12]);
 
@@ -201,7 +195,6 @@ public class Fp12 implements Field<Fp12> {
     }
 
     Fp12 cyclotomicSquared() {
-
         Fp2 z0 = a.a;
         Fp2 z4 = a.b;
         Fp2 z3 = a.c;
@@ -264,7 +257,6 @@ public class Fp12 implements Field<Fp12> {
     }
 
     Fp12 cyclotomicExp(BigInteger pow) {
-
         Fp12 res = _1;
 
         for (int i = pow.bitLength() - 1; i >= 0; i--) {
@@ -279,7 +271,6 @@ public class Fp12 implements Field<Fp12> {
     }
 
     Fp12 unitaryInverse() {
-
         Fp6 ra = a;
         Fp6 rb = b.negate();
 
@@ -292,17 +283,13 @@ public class Fp12 implements Field<Fp12> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (!(o instanceof Fp12))
-            return false;
+        if (this == o) return true;
+        if (!(o instanceof Fp12)) return false;
 
         Fp12 fp12 = (Fp12) o;
 
-        if (a != null ? !a.equals(fp12.a) : fp12.a != null)
-            return false;
+        if (a != null ? !a.equals(fp12.a) : fp12.a != null) return false;
         return !(b != null ? !b.equals(fp12.b) : fp12.b != null);
-
     }
 
     @Override
@@ -313,57 +300,66 @@ public class Fp12 implements Field<Fp12> {
     @Override
     public String toString() {
         return String.format(
-                "Fp12 (%s; %s)\n" +
-                        "     (%s; %s)\n" +
-                        "     (%s; %s)\n" +
-                        "     (%s; %s)\n" +
-                        "     (%s; %s)\n" +
-                        "     (%s; %s)\n",
-
-                a.a.a, a.a.b,
-                a.b.a, a.b.b,
-                a.c.a, a.c.b,
-                b.a.a, b.a.b,
-                b.b.a, b.b.b,
-                b.c.a, b.c.b);
+            "Fp12 (%s; %s)\n" +
+            "     (%s; %s)\n" +
+            "     (%s; %s)\n" +
+            "     (%s; %s)\n" +
+            "     (%s; %s)\n" +
+            "     (%s; %s)\n",
+            a.a.a,
+            a.a.b,
+            a.b.a,
+            a.b.b,
+            a.c.a,
+            a.c.b,
+            b.a.a,
+            b.a.b,
+            b.b.a,
+            b.b.b,
+            b.c.a,
+            b.c.b
+        );
     }
 
     static final Fp2[] FROBENIUS_COEFFS_B = new Fp2[] {
-
-            new Fp2(BigInteger.ONE,
-                    BigInteger.ZERO),
-
-            new Fp2(new BigInteger("8376118865763821496583973867626364092589906065868298776909617916018768340080"),
-                    new BigInteger("16469823323077808223889137241176536799009286646108169935659301613961712198316")),
-
-            new Fp2(new BigInteger("21888242871839275220042445260109153167277707414472061641714758635765020556617"),
-                    BigInteger.ZERO),
-
-            new Fp2(new BigInteger("11697423496358154304825782922584725312912383441159505038794027105778954184319"),
-                    new BigInteger("303847389135065887422783454877609941456349188919719272345083954437860409601")),
-
-            new Fp2(new BigInteger("21888242871839275220042445260109153167277707414472061641714758635765020556616"),
-                    BigInteger.ZERO),
-
-            new Fp2(new BigInteger("3321304630594332808241809054958361220322477375291206261884409189760185844239"),
-                    new BigInteger("5722266937896532885780051958958348231143373700109372999374820235121374419868")),
-
-            new Fp2(new BigInteger("21888242871839275222246405745257275088696311157297823662689037894645226208582"),
-                    BigInteger.ZERO),
-
-            new Fp2(new BigInteger("13512124006075453725662431877630910996106405091429524885779419978626457868503"),
-                    new BigInteger("5418419548761466998357268504080738289687024511189653727029736280683514010267")),
-
-            new Fp2(new BigInteger("2203960485148121921418603742825762020974279258880205651966"),
-                    BigInteger.ZERO),
-
-            new Fp2(new BigInteger("10190819375481120917420622822672549775783927716138318623895010788866272024264"),
-                    new BigInteger("21584395482704209334823622290379665147239961968378104390343953940207365798982")),
-
-            new Fp2(new BigInteger("2203960485148121921418603742825762020974279258880205651967"),
-                    BigInteger.ZERO),
-
-            new Fp2(new BigInteger("18566938241244942414004596690298913868373833782006617400804628704885040364344"),
-                    new BigInteger("16165975933942742336466353786298926857552937457188450663314217659523851788715"))
+        new Fp2(BigInteger.ONE, BigInteger.ZERO),
+        new Fp2(
+            new BigInteger("8376118865763821496583973867626364092589906065868298776909617916018768340080"),
+            new BigInteger("16469823323077808223889137241176536799009286646108169935659301613961712198316")
+        ),
+        new Fp2(
+            new BigInteger("21888242871839275220042445260109153167277707414472061641714758635765020556617"),
+            BigInteger.ZERO
+        ),
+        new Fp2(
+            new BigInteger("11697423496358154304825782922584725312912383441159505038794027105778954184319"),
+            new BigInteger("303847389135065887422783454877609941456349188919719272345083954437860409601")
+        ),
+        new Fp2(
+            new BigInteger("21888242871839275220042445260109153167277707414472061641714758635765020556616"),
+            BigInteger.ZERO
+        ),
+        new Fp2(
+            new BigInteger("3321304630594332808241809054958361220322477375291206261884409189760185844239"),
+            new BigInteger("5722266937896532885780051958958348231143373700109372999374820235121374419868")
+        ),
+        new Fp2(
+            new BigInteger("21888242871839275222246405745257275088696311157297823662689037894645226208582"),
+            BigInteger.ZERO
+        ),
+        new Fp2(
+            new BigInteger("13512124006075453725662431877630910996106405091429524885779419978626457868503"),
+            new BigInteger("5418419548761466998357268504080738289687024511189653727029736280683514010267")
+        ),
+        new Fp2(new BigInteger("2203960485148121921418603742825762020974279258880205651966"), BigInteger.ZERO),
+        new Fp2(
+            new BigInteger("10190819375481120917420622822672549775783927716138318623895010788866272024264"),
+            new BigInteger("21584395482704209334823622290379665147239961968378104390343953940207365798982")
+        ),
+        new Fp2(new BigInteger("2203960485148121921418603742825762020974279258880205651967"), BigInteger.ZERO),
+        new Fp2(
+            new BigInteger("18566938241244942414004596690298913868373833782006617400804628704885040364344"),
+            new BigInteger("16165975933942742336466353786298926857552937457188450663314217659523851788715")
+        )
     };
 }

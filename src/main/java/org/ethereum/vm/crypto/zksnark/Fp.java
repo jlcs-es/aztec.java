@@ -31,12 +31,12 @@ import java.util.Objects;
  * @since 01.09.2017
  */
 public class Fp implements Field<Fp> {
-
     public static final Fp ZERO = new Fp(BigInteger.ZERO);
     public static final Fp _1 = new Fp(BigInteger.ONE);
     public static final Fp _2 = new Fp(BigInteger.TWO);
     public static final Fp NON_RESIDUE = new Fp(
-            new BigInteger("21888242871839275222246405745257275088696311157297823662689037894645226208582"));
+        new BigInteger("21888242871839275222246405745257275088696311157297823662689037894645226208582")
+    );
 
     public static final Fp _2_INV = new Fp(BigInteger.valueOf(2).modInverse(P));
 
@@ -124,10 +124,8 @@ public class Fp implements Field<Fp> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
         Fp fp = (Fp) o;
 

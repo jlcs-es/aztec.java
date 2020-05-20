@@ -30,7 +30,6 @@ import java.math.BigInteger;
  * @since 31.08.2017
  */
 public class BN128Fp2 extends BN128<Fp2> {
-
     // the point at infinity
     static final BN128<Fp2> ZERO = new BN128Fp2(Fp2.ZERO, Fp2.ZERO, Fp2.ZERO);
 
@@ -68,7 +67,6 @@ public class BN128Fp2 extends BN128<Fp2> {
      * been passed it returns a point, otherwise returns null
      */
     public static BN128<Fp2> create(byte[] aa, byte[] bb, byte[] cc, byte[] dd) {
-
         Fp2 x = Fp2.create(aa, bb);
         Fp2 y = Fp2.create(cc, dd);
 

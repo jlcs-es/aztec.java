@@ -24,7 +24,6 @@ package org.ethereum.vm.crypto.zksnark;
  * @since 05.09.2017
  */
 interface Field<T> {
-
     T add(T o);
 
     T mul(T o);

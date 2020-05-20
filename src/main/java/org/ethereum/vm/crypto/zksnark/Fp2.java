@@ -38,14 +38,13 @@ import java.util.Objects;
  * @since 01.09.2017
  */
 public class Fp2 implements Field<Fp2> {
-
     static final Fp2 ZERO = new Fp2(Fp.ZERO, Fp.ZERO);
     static final Fp2 _1 = new Fp2(Fp._1, Fp.ZERO);
     static final Fp2 NON_RESIDUE = new Fp2(BigInteger.valueOf(9), BigInteger.ONE);
 
     static final Fp[] FROBENIUS_COEFFS_B = new Fp[] {
-            new Fp(BigInteger.ONE),
-            new Fp(new BigInteger("21888242871839275222246405745257275088696311157297823662689037894645226208582"))
+        new Fp(BigInteger.ONE),
+        new Fp(new BigInteger("21888242871839275222246405745257275088696311157297823662689037894645226208582"))
     };
 
     Fp a;
@@ -62,13 +61,11 @@ public class Fp2 implements Field<Fp2> {
 
     @Override
     public Fp2 squared() {
-
         // using Complex squaring
 
         Fp ab = a.mul(b);
 
-        Fp ra = a.add(b).mul(b.mul(Fp.NON_RESIDUE).add(a))
-                .sub(ab).sub(ab.mul(Fp.NON_RESIDUE)); // ra = (a + b)(a + NON_RESIDUE * b) - ab - NON_RESIDUE * b
+        Fp ra = a.add(b).mul(b.mul(Fp.NON_RESIDUE).add(a)).sub(ab).sub(ab.mul(Fp.NON_RESIDUE)); // ra = (a + b)(a + NON_RESIDUE * b) - ab - NON_RESIDUE * b
         Fp rb = ab.dbl();
 
         return new Fp2(ra, rb);
@@ -76,7 +73,6 @@ public class Fp2 implements Field<Fp2> {
 
     @Override
     public Fp2 mul(Fp2 o) {
-
         Fp aa = a.mul(o.a);
         Fp bb = b.mul(o.b);
 
@@ -103,7 +99,6 @@ public class Fp2 implements Field<Fp2> {
 
     @Override
     public Fp2 inverse() {
-
         Fp t0 = a.squared();
         Fp t1 = b.squared();
         Fp t2 = t0.sub(Fp.NON_RESIDUE.mul(t1));
@@ -131,7 +126,6 @@ public class Fp2 implements Field<Fp2> {
     }
 
     static Fp2 create(BigInteger aa, BigInteger bb) {
-
         Fp a = Fp.create(aa);
         Fp b = Fp.create(bb);
 
@@ -139,7 +133,6 @@ public class Fp2 implements Field<Fp2> {
     }
 
     static Fp2 create(byte[] aa, byte[] bb) {
-
         Fp a = Fp.create(aa);
         Fp b = Fp.create(bb);
 
@@ -148,17 +141,13 @@ public class Fp2 implements Field<Fp2> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
         Fp2 fp2 = (Fp2) o;
 
-        if (a != null ? !a.equals(fp2.a) : fp2.a != null)
-            return false;
+        if (a != null ? !a.equals(fp2.a) : fp2.a != null) return false;
         return !(b != null ? !b.equals(fp2.b) : fp2.b != null);
-
     }
 
     @Override
@@ -167,7 +156,6 @@ public class Fp2 implements Field<Fp2> {
     }
 
     Fp2 frobeniusMap(int power) {
-
         Fp ra = a;
         Fp rb = FROBENIUS_COEFFS_B[power % 2].mul(b);
 

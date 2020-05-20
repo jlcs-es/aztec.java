@@ -55,7 +55,6 @@ import java.math.BigInteger;
  * @since 05.09.2017
  */
 public abstract class BN128<T extends Field<T>> {
-
     protected T x;
     protected T y;
     protected T z;
@@ -70,19 +69,18 @@ public abstract class BN128<T extends Field<T>> {
      * Point at infinity in Ethereum notation: should return (0; 0; 0),
      * {@link #isZero()} method called for that point, also, returns {@code true}
      */
-    abstract protected BN128<T> zero();
+    protected abstract BN128<T> zero();
 
-    abstract protected BN128<T> instance(T x, T y, T z);
+    protected abstract BN128<T> instance(T x, T y, T z);
 
-    abstract protected T b();
+    protected abstract T b();
 
-    abstract protected T one();
+    protected abstract T one();
 
     /**
      * Transforms given Jacobian to affine coordinates and then creates a point
      */
     public BN128<T> toAffine() {
-
         if (isZero()) {
             BN128<T> zero = zero();
             return instance(zero.x, one(), zero.z); // (0; 1; 0)
@@ -113,9 +111,7 @@ public abstract class BN128<T extends Field<T>> {
     }
 
     protected boolean isOnCurve() {
-
-        if (isZero())
-            return true;
+        if (isZero()) return true;
 
         T z6 = z.squared().mul(z).squared();
 
@@ -125,11 +121,8 @@ public abstract class BN128<T extends Field<T>> {
     }
 
     public BN128<T> add(BN128<T> o) {
-
-        if (this.isZero())
-            return o; // 0 + P = P
-        if (o.isZero())
-            return this; // P + 0 = P
+        if (this.isZero()) return o; // 0 + P = P
+        if (o.isZero()) return this; // P + 0 = P
 
         T x1 = this.x, y1 = this.y, z1 = this.z;
         T x2 = o.x, y2 = o.y, z2 = o.z;
@@ -158,8 +151,7 @@ public abstract class BN128<T extends Field<T>> {
         T j = h.mul(i); // j = h * i
         T r = s2.sub(s1).dbl(); // r = 2 * (s2 - s1)
         T v = u1.mul(i); // v = u1 * i
-        T zz = z1.add(z2).squared()
-                .sub(z1.squared()).sub(z2.squared());
+        T zz = z1.add(z2).squared().sub(z1.squared()).sub(z2.squared());
 
         T x3 = r.squared().sub(j).sub(v.dbl()); // x3 = r^2 - j - 2 * v
         T y3 = v.sub(x3).mul(r).sub(s1.mul(j).dbl()); // y3 = r * (v - x3) - 2 * (s1 * j)
@@ -169,17 +161,13 @@ public abstract class BN128<T extends Field<T>> {
     }
 
     public BN128<T> mul(BigInteger s) {
+        if (s.compareTo(BigInteger.ZERO) == 0) return zero(); // P * 0 = 0
 
-        if (s.compareTo(BigInteger.ZERO) == 0) // P * 0 = 0
-            return zero();
-
-        if (isZero())
-            return this; // 0 * s = 0
+        if (isZero()) return this; // 0 * s = 0
 
         BN128<T> res = zero();
 
         for (int i = s.bitLength() - 1; i >= 0; i--) {
-
             res = res.dbl();
 
             if (s.testBit(i)) {
@@ -191,9 +179,7 @@ public abstract class BN128<T extends Field<T>> {
     }
 
     private BN128<T> dbl() {
-
-        if (isZero())
-            return this;
+        if (isZero()) return this;
 
         // ported code is started from here
         // next calculations are done in Jacobian coordinates with z = 1
@@ -230,7 +216,6 @@ public abstract class BN128<T extends Field<T>> {
     }
 
     protected boolean isValid() {
-
         // check whether coordinates belongs to the Field
         if (!x.isValid() || !y.isValid() || !z.isValid()) {
             return false;
@@ -252,17 +237,13 @@ public abstract class BN128<T extends Field<T>> {
     @Override
     @SuppressWarnings("all")
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (!(o instanceof BN128))
-            return false;
+        if (this == o) return true;
+        if (!(o instanceof BN128)) return false;
 
         BN128<?> bn128 = (BN128<?>) o;
 
-        if (x != null ? !x.equals(bn128.x) : bn128.x != null)
-            return false;
-        if (y != null ? !y.equals(bn128.y) : bn128.y != null)
-            return false;
+        if (x != null ? !x.equals(bn128.x) : bn128.x != null) return false;
+        if (y != null ? !y.equals(bn128.y) : bn128.y != null) return false;
         return !(z != null ? !z.equals(bn128.z) : bn128.z != null);
     }
 }

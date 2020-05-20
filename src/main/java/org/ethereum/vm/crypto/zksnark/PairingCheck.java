@@ -52,14 +52,12 @@ import java.util.List;
  * @since 01.09.2017
  */
 public class PairingCheck {
-
     static final BigInteger LOOP_COUNT = new BigInteger("29793968203157093288");
 
     List<Pair> pairs = new ArrayList<>();
     Fp12 product = Fp12._1;
 
-    private PairingCheck() {
-    }
+    private PairingCheck() {}
 
     public static PairingCheck create() {
         return new PairingCheck();
@@ -70,13 +68,10 @@ public class PairingCheck {
     }
 
     public void run() {
-
         for (Pair pair : pairs) {
-
             Fp12 miller = pair.millerLoop();
 
-            if (!miller.equals(Fp12._1)) // run mul code only if necessary
-                product = product.mul(miller);
+            if (!miller.equals(Fp12._1)) product = product.mul(miller); // run mul code only if necessary
         }
 
         // finalize
@@ -88,7 +83,6 @@ public class PairingCheck {
     }
 
     private static Fp12 millerLoop(BN128G1 g1, BN128G2 g2) {
-
         // convert to affine coordinates
         g1 = g1.toAffine();
         g2 = g2.toAffine();
@@ -101,7 +95,6 @@ public class PairingCheck {
 
         // for each bit except most significant one
         for (int i = LOOP_COUNT.bitLength() - 2; i >= 0; i--) {
-
             EllCoeffs c = coeffs.get(idx++);
             f = f.squared();
             f = f.mulBy024(c.ell0, g1.y.mul(c.ellVW), g1.x.mul(c.ellVV));
@@ -110,7 +103,6 @@ public class PairingCheck {
                 c = coeffs.get(idx++);
                 f = f.mulBy024(c.ell0, g1.y.mul(c.ellVW), g1.x.mul(c.ellVV));
             }
-
         }
 
         EllCoeffs c = coeffs.get(idx++);
@@ -123,14 +115,12 @@ public class PairingCheck {
     }
 
     private static List<EllCoeffs> calcEllCoeffs(BN128G2 base) {
-
         List<EllCoeffs> coeffs = new ArrayList<>();
 
         BN128G2 addend = base;
 
         // for each bit except most significant one
         for (int i = LOOP_COUNT.bitLength() - 2; i >= 0; i--) {
-
             Precomputed doubling = flippedMillerLoopDoubling(addend);
 
             addend = doubling.g2;
@@ -159,7 +149,6 @@ public class PairingCheck {
     }
 
     private static Precomputed flippedMillerLoopMixedAddition(BN128G2 base, BN128G2 addend) {
-
         Fp2 x1 = addend.x, y1 = addend.y, z1 = addend.z;
         Fp2 x2 = base.x, y2 = base.y;
 
@@ -179,13 +168,10 @@ public class PairingCheck {
         Fp2 ellVV = e.negate(); // ell_VV = -e
         Fp2 ellVW = d; // ell_VW = d
 
-        return Precomputed.of(
-                new BN128G2(x3, y3, z3),
-                new EllCoeffs(ell0, ellVW, ellVV));
+        return Precomputed.of(new BN128G2(x3, y3, z3), new EllCoeffs(ell0, ellVW, ellVV));
     }
 
     private static Precomputed flippedMillerLoopDoubling(BN128G2 g2) {
-
         Fp2 x = g2.x, y = g2.y, z = g2.z;
 
         Fp2 a = Fp._2_INV.mul(x.mul(y)); // a = x * y / 2
@@ -208,13 +194,10 @@ public class PairingCheck {
         Fp2 ellVW = h.negate(); // ell_VW = -h
         Fp2 ellVV = j.add(j).add(j); // ell_VV = 3 * j
 
-        return Precomputed.of(
-                new BN128G2(rx, ry, rz),
-                new EllCoeffs(ell0, ellVW, ellVV));
+        return Precomputed.of(new BN128G2(rx, ry, rz), new EllCoeffs(ell0, ellVW, ellVV));
     }
 
     public static Fp12 finalExponentiation(Fp12 el) {
-
         // first chunk
         Fp12 w = new Fp12(el.a, el.b.negate()); // el.b = -el.b
         Fp12 x = el.inverse();
@@ -250,7 +233,6 @@ public class PairingCheck {
     }
 
     static class Precomputed {
-
         BN128G2 g2;
         EllCoeffs coeffs;
 
@@ -265,7 +247,6 @@ public class PairingCheck {
     }
 
     static class Pair {
-
         BN128G1 g1;
         BN128G2 g2;
 
@@ -279,12 +260,9 @@ public class PairingCheck {
         }
 
         Fp12 millerLoop() {
-
             // miller loop result equals "1" if at least one of the points is zero
-            if (g1.isZero())
-                return Fp12._1;
-            if (g2.isZero())
-                return Fp12._1;
+            if (g1.isZero()) return Fp12._1;
+            if (g2.isZero()) return Fp12._1;
 
             return PairingCheck.millerLoop(g1, g2);
         }

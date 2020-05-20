@@ -44,14 +44,11 @@ public class BN128G1 extends BN128Fp {
      * been passed and null otherwise
      */
     public static BN128G1 create(byte[] x, byte[] y) {
-
         BN128<Fp> p = BN128Fp.create(x, y);
 
-        if (p == null)
-            return null;
+        if (p == null) return null;
 
-        if (!isGroupMember(p))
-            return null;
+        if (!isGroupMember(p)) return null;
 
         return new BN128G1(p);
     }
